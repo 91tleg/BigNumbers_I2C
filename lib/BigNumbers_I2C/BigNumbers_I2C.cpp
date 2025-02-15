@@ -222,22 +222,21 @@ void BigNumbers_I2C::printInt(int32_t number, uint8_t startX)
     _lcd->write(4);
     _lcd->setCursor(startX, 1);
     _lcd->print("   ");
-    startX++;
+    ++startX;
     number = abs(number);
   }
   uint8_t length = (number == 0) ? 1 : static_cast<uint8_t>(log10(number) + 1);
-  uint8_t index = length - 1;
-  uint8_t buffer[index];
-  for (uint8_t i = index; i > 0; --i)
+  uint8_t digits[5];
+  for (int8_t i = length - 1; i > 0; --i)
   {
-    buffer[i] = number % 10;
+    digits[i] = number % 10;
     number /= 10;
   }
-  buffer[0] = number % 10;
+  digits[0] = number % 10;
 
   for (uint8_t j = 0; j < length; ++j)
   {
-    printDigit(buffer[j], startX + (j * 3));
+    printDigit(digits[j], startX + (j * 3));
   }
 }
 
