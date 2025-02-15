@@ -111,102 +111,102 @@ void BigNumbers_I2C::printDigit(uint8_t digit, uint8_t startX)
   case 0:
     _lcd->setCursor(startX, 0);
     _lcd->write(uint8_t(0));
-    _lcd->write(1);
-    _lcd->write(2);
+    _lcd->write(uint8_t(1));
+    _lcd->write(uint8_t(2));
     _lcd->setCursor(startX, 1);
     _lcd->write(uint8_t(0));
-    _lcd->write(4);
-    _lcd->write(2);
+    _lcd->write(uint8_t(4));
+    _lcd->write(uint8_t(2));
     break;
   case 1:
     _lcd->setCursor(startX, 0);
     _lcd->write(char(254));
     _lcd->write(char(254));
-    _lcd->write(2);
+    _lcd->write(uint8_t(2));
     _lcd->setCursor(startX, 1);
     _lcd->write(char(254));
     _lcd->write(char(254));
-    _lcd->write(2);
+    _lcd->write(uint8_t(2));
     break;
   case 2:
     _lcd->setCursor(startX, 0);
-    _lcd->write(3);
-    _lcd->write(6);
-    _lcd->write(2);
+    _lcd->write(uint8_t(3));
+    _lcd->write(uint8_t(6));
+    _lcd->write(uint8_t(2));
     _lcd->setCursor(startX, 1);
-    _lcd->write(byte(0));
-    _lcd->write(4);
-    _lcd->write(4);
+    _lcd->write(uint8_t(0));
+    _lcd->write(uint8_t(4));
+    _lcd->write(uint8_t(4));
     break;
   case 3:
     _lcd->setCursor(startX, 0);
-    _lcd->write(3);
-    _lcd->write(6);
-    _lcd->write(2);
+    _lcd->write(uint8_t(3));
+    _lcd->write(uint8_t(6));
+    _lcd->write(uint8_t(2));
     _lcd->setCursor(startX, 1);
-    _lcd->write(7);
-    _lcd->write(4);
-    _lcd->write(2);
+    _lcd->write(uint8_t(7));
+    _lcd->write(uint8_t(4));
+    _lcd->write(uint8_t(2));
     break;
   case 4:
     _lcd->setCursor(startX, 0);
     _lcd->write(uint8_t(0));
-    _lcd->write(4);
-    _lcd->write(2);
+    _lcd->write(uint8_t(4));
+    _lcd->write(uint8_t(2));
     _lcd->setCursor(startX, 1);
     _lcd->write(char(254));
     _lcd->write(char(254));
-    _lcd->write(2);
+    _lcd->write(uint8_t(2));
     break;
   case 5:
     _lcd->setCursor(startX, 0);
     _lcd->write(uint8_t(0));
-    _lcd->write(6);
-    _lcd->write(5);
+    _lcd->write(uint8_t(6));
+    _lcd->write(uint8_t(5));
     _lcd->setCursor(startX, 1);
-    _lcd->write(7);
-    _lcd->write(4);
-    _lcd->write(2);
+    _lcd->write(uint8_t(7));
+    _lcd->write(uint8_t(4));
+    _lcd->write(uint8_t(2));
     break;
   case 6:
     _lcd->setCursor(startX, 0);
     _lcd->write(uint8_t(0));
-    _lcd->write(6);
-    _lcd->write(5);
+    _lcd->write(uint8_t(6));
+    _lcd->write(uint8_t(5));
     _lcd->setCursor(startX, 1);
     _lcd->write(uint8_t(0));
-    _lcd->write(4);
-    _lcd->write(2);
+    _lcd->write(uint8_t(4));
+    _lcd->write(uint8_t(2));
     break;
   case 7:
     _lcd->setCursor(startX, 0);
-    _lcd->write(1);
-    _lcd->write(1);
-    _lcd->write(2);
+    _lcd->write(uint8_t(1));
+    _lcd->write(uint8_t(1));
+    _lcd->write(uint8_t(2));
     _lcd->setCursor(startX, 1);
     _lcd->write(char(254));
     _lcd->write(char(254));
-    _lcd->write(2);
+    _lcd->write(uint8_t(2));
     break;
   case 8:
     _lcd->setCursor(startX, 0);
     _lcd->write(uint8_t(0));
-    _lcd->write(6);
-    _lcd->write(2);
+    _lcd->write(uint8_t(6));
+    _lcd->write(uint8_t(2));
     _lcd->setCursor(startX, 1);
     _lcd->write(uint8_t(0));
-    _lcd->write(4);
-    _lcd->write(2);
+    _lcd->write(uint8_t(4));
+    _lcd->write(uint8_t(2));
     break;
   case 9:
     _lcd->setCursor(startX, 0);
     _lcd->write(uint8_t(0));
-    _lcd->write(6);
-    _lcd->write(2);
+    _lcd->write(uint8_t(6));
+    _lcd->write(uint8_t(2));
     _lcd->setCursor(startX, 1);
-    _lcd->write(7);
-    _lcd->write(4);
-    _lcd->write(2);
+    _lcd->write(uint8_t(7));
+    _lcd->write(uint8_t(4));
+    _lcd->write(uint8_t(2));
     break;
 
   default:
@@ -216,10 +216,13 @@ void BigNumbers_I2C::printDigit(uint8_t digit, uint8_t startX)
 
 void BigNumbers_I2C::printInt(int32_t number, uint8_t startX)
 {
+  bool isNegative = false;
+  // Print negative sign
   if (number < 0)
   {
+    isNegative = true;
     _lcd->setCursor(startX, 0);
-    _lcd->write(4);
+    _lcd->write(uint8_t(4));
     _lcd->setCursor(startX, 1);
     _lcd->print("   ");
     ++startX;
@@ -227,6 +230,8 @@ void BigNumbers_I2C::printInt(int32_t number, uint8_t startX)
   }
   uint8_t length = (number == 0) ? 1 : static_cast<uint8_t>(log10(number) + 1);
   uint8_t digits[5];
+
+  // Load the digits into array
   for (int8_t i = length - 1; i > 0; --i)
   {
     digits[i] = number % 10;
@@ -234,10 +239,16 @@ void BigNumbers_I2C::printInt(int32_t number, uint8_t startX)
   }
   digits[0] = number % 10;
 
+  // Print
   for (uint8_t j = 0; j < length; ++j)
   {
     printDigit(digits[j], startX + (j * 3));
   }
+  clearDigit(startX + (length * 3));
+  if (length == 5 && !isNegative)
+    {
+      clearDigit(15);
+    }
 }
 
 void BigNumbers_I2C::clearDigit(uint8_t startX)
