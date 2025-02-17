@@ -214,7 +214,7 @@ void BigNumbers_I2C::printDigit(uint8_t digit, uint8_t startX)
   }
 }
 
-void BigNumbers_I2C::printInt(int32_t number, uint8_t startX)
+void BigNumbers_I2C::printInt(int number, uint8_t startX)
 {
   bool isNegative = false;
   // Print negative sign
@@ -226,10 +226,15 @@ void BigNumbers_I2C::printInt(int32_t number, uint8_t startX)
     _lcd->setCursor(startX, 1);
     _lcd->print("   ");
     ++startX;
-    number = abs(number);
+    number = -number;
   }
   uint8_t length = (number == 0) ? 1 : static_cast<uint8_t>(log10(number) + 1);
-  uint8_t digits[5];
+  uint8_t digits[5] = {0};
+
+  if (length > 5)
+  {
+    return;
+  }
 
   // Load the digits into array
   for (int8_t i = length - 1; i > 0; --i)
@@ -245,10 +250,14 @@ void BigNumbers_I2C::printInt(int32_t number, uint8_t startX)
     printDigit(digits[j], startX + (j * 3));
   }
   clearDigit(startX + (length * 3));
-  if (length == 5 && !isNegative)
-    {
-      clearDigit(15);
-    }
+  if (length == 1 && !isNegative)
+  {
+    clearDigit(startX + 6);
+  }
+  if (length == 5 && !isNegative && startX == 0)
+  {
+    clearDigit(length * 3);
+  }
 }
 
 void BigNumbers_I2C::clearDigit(uint8_t startX)
@@ -257,4 +266,83 @@ void BigNumbers_I2C::clearDigit(uint8_t startX)
   _lcd->print("   ");
   _lcd->setCursor(startX, 1);
   _lcd->print("   ");
+}
+
+void BigNumbers_I2C::printFloat(float number, uint8_t startX)
+{
+  uint8_t index = startX;
+  bool isNegative = false;
+  if (number < 0)
+  {
+    isNegative = true;
+    _lcd->setCursor(index, 0);
+    _lcd->write(uint8_t(4));
+    _lcd->setCursor(index, 1);
+    _lcd->print("   ");
+    ++index;
+    number = -number;
+  }
+
+  // Extract integer and fractional parts
+  int8_t intPart = static_cast<int>(number);
+  int8_t fracPart = static_cast<int>((number - static_cast<float>(intPart)) * 100);
+
+  uint8_t intLength = (intPart == 0) ? 1 : static_cast<uint8_t>(log10(intPart) + 1);
+  uint8_t fracLength = 2;
+
+  if ((!isNegative && intLength + fracLength > 5) || (isNegative && intLength + fracLength > 4))
+  {
+    return;
+  }
+
+  uint8_t arrInt[3] = {0};
+  uint8_t arrFrac[2] = {0};
+
+  for (int8_t i = intLength - 1; i > 0; --i)
+  {
+    arrInt[i] = intPart % 10;
+    intPart /= 10;
+  }
+  arrInt[0] = intPart % 10;
+
+  for (int8_t i = fracLength - 1; i > 0; --i)
+  {
+    arrFrac[i] = fracPart % 10;
+    fracPart /= 10;
+  }
+  arrFrac[0] = fracPart % 10;
+
+  // Print integer part
+  for (int8_t i = 0; i < intLength; ++i)
+  {
+    printDigit(arrInt[i], index);
+    index += 3;
+  }
+
+  // Print decimal point
+  _lcd->setCursor(index, 0);
+  _lcd->print("     ");
+  _lcd->setCursor(index, 1);
+  _lcd->print('.');
+  ++index;
+
+  // Print fractional part
+  for (int8_t i = 0; i < fracLength; ++i)
+  {
+    printDigit(arrFrac[i], index);
+    index += 3;
+  }
+
+  if (isNegative && intLength == 1)
+  {
+    clearDigit(startX + (intLength + fracLength) * 3 + 2);
+  }
+  if (!isNegative && intLength == 1)
+  {
+    clearDigit(startX + (intLength + fracLength) * 3 + 1);
+  }
+  if (!isNegative && intLength == 2)
+  {
+    clearDigit(startX + (intLength + fracLength) * 3 + 3);
+  }
 }

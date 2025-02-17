@@ -12,7 +12,8 @@ public:
   void begin();
   void clearDigit(uint8_t);
   void printDigit(uint8_t, uint8_t);
-  void printInt(int32_t, uint8_t);
+  void printInt(int, uint8_t);
+  void printFloat(float, uint8_t);
 
 private:
   LiquidCrystal_I2C *_lcd;
