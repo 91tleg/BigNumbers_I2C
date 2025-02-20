@@ -165,14 +165,14 @@ void BigNumbers_I2C::printInt(int value, uint8_t startX)
     printDigit(digits[j], _currIndex);
     _currIndex += 3;
   }
+  // Clear if value is shorter than previous
   if (_prevLength > length)
   {
-
     while (_prevLength != length)
     {
       clearDigit(_currIndex);
-      _prevLength--;
       _currIndex += 3;
+      --_prevLength;
     }
   }
 
@@ -225,10 +225,17 @@ void BigNumbers_I2C::printFloat(float value, uint8_t startX)
   // Print fractional part
   for (int8_t i = 0; i < fracLength; ++i)
   {
-    if (_currIndex + 3 > 15)
-      break;
     printDigit(arrFrac[i], _currIndex);
     _currIndex += 3;
   }
-  clearDigit(_currIndex);
+  if (_prevLength > intLength + fracLength)
+  {
+    while (_prevLength != intLength + fracLength)
+    {
+      clearDigit(_currIndex);
+      _currIndex += 3;
+      --_prevLength;
+    }
+  }
+  _prevLength = intLength + fracLength;
 }
