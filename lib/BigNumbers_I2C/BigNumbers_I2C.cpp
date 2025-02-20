@@ -175,7 +175,6 @@ void BigNumbers_I2C::printInt(int value, uint8_t startX)
       --_prevLength;
     }
   }
-
   _prevLength = length;
 }
 

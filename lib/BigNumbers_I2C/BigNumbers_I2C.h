@@ -18,7 +18,8 @@ public:
 private:
   LiquidCrystal_I2C *_lcd;
   uint8_t _currIndex;
-
+  uint8_t _prevLength;
+  
   uint8_t leftSide[8] =
       {
           B00111,
@@ -29,7 +30,6 @@ private:
           B01111,
           B01111,
           B00111};
-
   uint8_t upperBar[8] =
       {
           B11111,
@@ -40,7 +40,6 @@ private:
           B00000,
           B00000,
           B00000};
-
   uint8_t rightSide[8] =
       {
           B11100,
@@ -51,7 +50,6 @@ private:
           B11110,
           B11110,
           B11100};
-
   uint8_t leftEnd[8] =
       {
           B01111,
@@ -62,7 +60,6 @@ private:
           B00000,
           B00011,
           B00111};
-
   uint8_t lowerBar[8] =
       {
           B00000,
@@ -73,7 +70,6 @@ private:
           B11111,
           B11111,
           B11111};
-
   uint8_t rightEnd[8] =
       {
           B11110,
@@ -84,7 +80,6 @@ private:
           B00000,
           B11000,
           B11100};
-
   uint8_t middleBar[8] =
       {
           B11111,
@@ -95,7 +90,6 @@ private:
           B00000,
           B11111,
           B11111};
-
   uint8_t lowerEnd[8] =
       {
           B00000,
