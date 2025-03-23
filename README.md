@@ -10,46 +10,43 @@ Supports printing positive and negative integers and floating-point numbers with
 ## Installation
 Download the BigNumbers_I2C library.\
 Import to Arduino IDE: In the Arduino IDE, navigate to Sketch -> Include Library -> Add .ZIP Library and select the downloaded ZIP file.\
-Include in Sketch: Include the library in your sketch by adding 
-```
-#include <BigNumbers_I2C.h>
-```
+Include in Sketch: Include the library in your sketch by adding ```#include <BigNumbers_I2C.h>```
 
 ## Features
 Integer and Floating-Point Support: Print both integers and floating-point numbers.\
-Supports positive & negative Integer and floats.\
+Supports positive & negative Integer and floats.
 
 ## Dependencies
-This library depends on the LiquidCrystal_I2C library for communication with the LCD display. Make sure it is installed and correctly configured.\
+This library depends on the LiquidCrystal_I2C library for communication with the LCD display. Make sure it is installed and correctly configured.
 
 ## Usage
 
-### Constructor
+#### Constructor
 ```
 BigNumbers_I2C(LiquidCrystal_I2C *lcd);
 ```
 Parameters: lcd - Pointer to a LiquidCrystal_I2C object.
 
-## Methods
+#### Methods
 ```
 begin()
 ```
-Initializes the custom characters./
+Initializes the custom characters.
 
 ```
 clearDigit(uint8_t startX)/
 ```
-Clears the digit at the specified position./
+Clears the digit at the specified position.
 
 ```
 printDigit(uint8_t digit, uint8_t startX)
 ```
-Prints a single-digit number (0-9) at the specified position./
+Prints a single-digit number (0-9) at the specified position.
 
 ```
 printInt(int value, uint8_t startX)
 ```
-Prints an integer number starting from the specified digit position./
+Prints an integer number starting from the specified digit position.
 
 ```
 printFloat(float value, uint8_t startX)
