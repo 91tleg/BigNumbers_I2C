@@ -22,33 +22,50 @@ This library depends on the LiquidCrystal_I2C library for communication with the
 ## Usage
 
 #### Constructor
-```
+```cpp
 BigNumbers_I2C(LiquidCrystal_I2C *lcd);
 ```
 Parameters: lcd - Pointer to a LiquidCrystal_I2C object.
 
 #### Methods
-```
+```cpp
 begin();
 ```
 Initializes the custom characters.
 
-```
+
+```cpp
 clearDigit(uint8_t startX);
 ```
 Clears the digit at the specified position.
 
-```
-printDigit(uint8_t digit, uint8_t startX);
-```
-Prints a single-digit number (0-9) at the specified position.
 
-```
+```cpp
 printInt(int value, uint8_t startX);
 ```
 Prints an integer number starting from the specified digit position.
 
-```
+
+```cpp
 printFloat(float value, uint8_t startX);
 ```
 Prints a floating-point number starting from the specified digit position.
+
+## Example
+```cpp
+LiquidCrystal_I2C lcd(0x27,16,2);  // LCD object
+
+BigNumbers_I2C bigNum(&lcd);       // Passing the pointer to the address of LCD object
+
+void setup()
+{
+    lcd.init();
+    lcd.backlight();
+    bigNum.begin();
+}
+
+void loop()
+{
+  bigNum.printInt(0);   // Print Big Number
+}
+```
