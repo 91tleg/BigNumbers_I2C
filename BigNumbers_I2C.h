@@ -18,7 +18,7 @@ public:
     /**
      * @brief Initializes the LCD with custom characters.
      */
-    void begin();
+    void begin(void);
 
     /**
      * @brief Clears a digit at the specified starting position on the LCD.
@@ -28,20 +28,12 @@ public:
     void clearDigit(uint8_t startX);
 
     /**
-     * @brief Prints a single-digit number (0-9) at the specified position on the LCD.
-     *
-     * @param digit The digit to be displayed (0-9).
-     * @param startX The column position where the digit should be displayed.
-     */
-    void printDigit(uint8_t, uint8_t);
-
-    /**
      * @brief Prints an integer number starting from the specified digit position.
      *
      * @param value The integer number to be displayed.
      * @param startX The column position where the number should start displaying.
      */
-    void printInt(int, uint8_t);
+    void printInt(int, uint8_t startX);
 
     /**
      * @brief Prints a floating-point number starting from the specified digit position.
@@ -49,12 +41,20 @@ public:
      * @param value The floating-point number to be displayed.
      * @param startX The column position where the number should start displaying.
      */
-    void printFloat(float, uint8_t);
+    void printFloat(float, uint8_t startX);
 
 private:
     LiquidCrystal_I2C *_lcd;
     uint8_t _currIndex;
     uint8_t _prevLength;
+
+    /**
+     * @brief Prints a single-digit number (0-9) at the specified position on the LCD.
+     *
+     * @param digit The digit to be displayed (0-9).
+     * @param startX The column position where the digit should be displayed.
+     */
+    void printDigit(uint8_t digit, uint8_t startX);
 
     uint8_t leftSide[8] =
         {
