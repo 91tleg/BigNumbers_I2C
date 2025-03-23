@@ -29,26 +29,26 @@ Parameters: lcd - Pointer to a LiquidCrystal_I2C object.
 
 #### Methods
 ```
-begin()
+begin();
 ```
 Initializes the custom characters.
 
 ```
-clearDigit(uint8_t startX)/
+clearDigit(uint8_t startX);
 ```
 Clears the digit at the specified position.
 
 ```
-printDigit(uint8_t digit, uint8_t startX)
+printDigit(uint8_t digit, uint8_t startX);
 ```
 Prints a single-digit number (0-9) at the specified position.
 
 ```
-printInt(int value, uint8_t startX)
+printInt(int value, uint8_t startX);
 ```
 Prints an integer number starting from the specified digit position.
 
 ```
-printFloat(float value, uint8_t startX)
+printFloat(float value, uint8_t startX);
 ```
 Prints a floating-point number starting from the specified digit position.
