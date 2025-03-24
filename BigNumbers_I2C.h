@@ -80,6 +80,16 @@ public:
      */
     void printDouble(double value);
 
+    /**
+     * @brief Prints a time in HH:MM format on the LCD.
+     *
+     * @param hour The hour value (0-23 or 0-12).
+     * @param minute The minute value (0-59).
+     * @param startX The column position where the time should be displayed.
+     * @param startY The row position where the time should be displayed.
+     */
+    void printTime(uint8_t hour, uint8_t minute, uint8_t startX, uint8_t startY);
+
 private:
     LiquidCrystal_I2C *_lcd;
     uint8_t _currIndex;
@@ -103,7 +113,23 @@ private:
      */
     void printNegativeSign(uint8_t startX, uint8_t startY);
 
+    /**
+     * @brief Prints a dot for floating point numbers at the specified position on the LCD..
+     *
+     * @param startX The column position where the dot should be displayed.
+     * @param startY The row position where the dot should be displayed.
+     */
+    void printDot(uint8_t startX, uint8_t startY);
 
+    /**
+     * @brief Prints a colon  at the specified position on the LCD.
+     *
+     * @param startX The column position where the colon should be displayed.
+     * @param startY The row position where the colon should be displayed.
+     */
+    void printColon(uint8_t startX, uint8_t startY);
+
+    
     uint8_t leftSide[8] =
         {
             B00111,
