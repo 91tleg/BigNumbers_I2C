@@ -43,7 +43,7 @@ Prints an integer number at default position.
 ```cpp
 void printInt(int value, uint8_t startX, uint8_t startY);
 ```
-Prints an integer number starting from the specified digit position.
+Prints an integer number starting from the specified position.
 
 
 ```cpp
@@ -55,7 +55,7 @@ Prints a floating-point number at default position.
 ```cpp
 void printFloat(float value, uint8_t startX, uint8_t startY);
 ```
-Prints a floating-point number starting from the specified digit position.
+Prints a floating-point number starting from the specified position.
 
 
 ```cpp
@@ -67,7 +67,13 @@ Prints a floating-point number at default position.
 ```cpp
 void printDouble(double value, uint8_t startX, uint8_t startY);
 ```
-Prints a floating-point number starting from the specified digit position.
+Prints a floating-point number starting from the specified position.
+
+
+```cpp
+void printTime(uint8_t hour, uint8_t minute, uint8_t startX, uint8_t startY);
+```
+Prints a time in HH:MM format starting from the specified position.
 
 ## Example
 ```cpp
