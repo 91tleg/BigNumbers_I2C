@@ -1,13 +1,15 @@
 #include "BigNumbers_I2C.h"
 
-BigNumbers_I2C::BigNumbers_I2C(LiquidCrystal_I2C *lcd) : _lcd(lcd), _currIndex(0) {};
-
-// Initialize the custom characters
-void BigNumbers_I2C::begin()
+BigNumbers_I2C::BigNumbers_I2C(LiquidCrystal_I2C *lcd) 
+    : _lcd(lcd), 
+    _currIndex(0), 
+    _decimalPoint(DEFAULT_DECIMAL_PRECISION) {};
+  
+void BigNumbers_I2C::begin(void)
 {
   if (!_lcd)
     return;
-
+  // Load custom characters into CGRAM
   _lcd->createChar(0, leftSide);
   _lcd->createChar(1, upperBar);
   _lcd->createChar(2, rightSide);
@@ -18,115 +20,114 @@ void BigNumbers_I2C::begin()
   _lcd->createChar(7, lowerEnd);
 }
 
-void BigNumbers_I2C::clearDigit(uint8_t startX)
+void BigNumbers_I2C::clearDigit(uint8_t startX, uint8_t startY)
 {
-  _lcd->setCursor(startX, 0);
+  _lcd->setCursor(startX, startY);
   _lcd->print("   ");
-  _lcd->setCursor(startX, 1);
+  _lcd->setCursor(startX, startY + 1);
   _lcd->print("   ");
 }
 
-// 0-9, and the starting x position
-void BigNumbers_I2C::printDigit(uint8_t digit, uint8_t startX)
+void BigNumbers_I2C::printDigit(uint8_t digit, uint8_t startX, uint8_t startY)
 {
   switch (digit)
   {
   case 0:
-    _lcd->setCursor(startX, 0);
+    _lcd->setCursor(startX, startY);
     _lcd->write(0);
     _lcd->write(1);
     _lcd->write(2);
-    _lcd->setCursor(startX, 1);
+    _lcd->setCursor(startX, startY + 1);
     _lcd->write(0);
     _lcd->write(4);
     _lcd->write(2);
     break;
   case 1:
-    _lcd->setCursor(startX, 0);
+    _lcd->setCursor(startX, startY);
     _lcd->write(0XFE);
     _lcd->write(0XFE);
     _lcd->write(2);
-    _lcd->setCursor(startX, 1);
+    _lcd->setCursor(startX, startY + 1);
     _lcd->write(0XFE);
     _lcd->write(0XFE);
     _lcd->write(2);
     break;
   case 2:
-    _lcd->setCursor(startX, 0);
+    _lcd->setCursor(startX, startY);
     _lcd->write(3);
     _lcd->write(6);
     _lcd->write(2);
-    _lcd->setCursor(startX, 1);
+    _lcd->setCursor(startX, startY + 1);
     _lcd->write(0);
     _lcd->write(4);
     _lcd->write(4);
     break;
   case 3:
-    _lcd->setCursor(startX, 0);
+    _lcd->setCursor(startX, startY);
     _lcd->write(3);
     _lcd->write(6);
     _lcd->write(2);
-    _lcd->setCursor(startX, 1);
+    _lcd->setCursor(startX, startY + 1);
     _lcd->write(7);
     _lcd->write(4);
     _lcd->write(2);
     break;
   case 4:
-    _lcd->setCursor(startX, 0);
+    _lcd->setCursor(startX, startY);
     _lcd->write(0);
     _lcd->write(4);
     _lcd->write(2);
-    _lcd->setCursor(startX, 1);
+    _lcd->setCursor(startX, startY + 1);
     _lcd->write(0xFE);
     _lcd->write(0xFE);
     _lcd->write(2);
     break;
   case 5:
-    _lcd->setCursor(startX, 0);
+    _lcd->setCursor(startX, startY);
     _lcd->write(0);
     _lcd->write(6);
     _lcd->write(5);
-    _lcd->setCursor(startX, 1);
+    _lcd->setCursor(startX, startY + 1);
     _lcd->write(7);
     _lcd->write(4);
     _lcd->write(2);
     break;
   case 6:
-    _lcd->setCursor(startX, 0);
+    _lcd->setCursor(startX, startY);
     _lcd->write(0);
     _lcd->write(6);
     _lcd->write(5);
-    _lcd->setCursor(startX, 1);
+    _lcd->setCursor(startX, startY + 1);
     _lcd->write(0);
     _lcd->write(4);
     _lcd->write(2);
     break;
   case 7:
-    _lcd->setCursor(startX, 0);
+    _lcd->setCursor(startX, startY);
     _lcd->write(1);
     _lcd->write(1);
     _lcd->write(2);
-    _lcd->setCursor(startX, 1);
+    _lcd->setCursor(startX, startY + 1);
     _lcd->write(0XFE);
     _lcd->write(0XFE);
     _lcd->write(2);
     break;
   case 8:
-    _lcd->setCursor(startX, 0);
+    _lcd->setCursor(startX, startY);
     _lcd->write(0);
     _lcd->write(6);
     _lcd->write(2);
-    _lcd->setCursor(startX, 1);
+    _lcd->setCursor(startX, startY + 1);
     _lcd->write(0);
     _lcd->write(4);
     _lcd->write(2);
     break;
   case 9:
-    _lcd->setCursor(startX, 0);
+    _lcd->setCursor(startX, startY);
     _lcd->write(0);
     _lcd->write(6);
     _lcd->write(2);
-    _lcd->setCursor(startX, 1);
+    _lcd->setCursor(startX, startY + 1);
     _lcd->write(7);
     _lcd->write(4);
     _lcd->write(2);
@@ -137,15 +138,20 @@ void BigNumbers_I2C::printDigit(uint8_t digit, uint8_t startX)
   }
 }
 
-void BigNumbers_I2C::printInt(int value, uint8_t startX)
+void BigNumbers_I2C::printNegativeSign(uint8_t startX, uint8_t startY)
+{
+  _lcd->setCursor(startX, startY);
+  _lcd->write(4);
+  _lcd->setCursor(startX, startY + 1);
+  _lcd->write(' ');
+}
+
+void BigNumbers_I2C::printInt(int value, uint8_t startX, uint8_t startY)
 {
   _currIndex = startX;
   if (value < 0)
   {
-    _lcd->setCursor(startX, 0);
-    _lcd->write(4); // Print negative sign
-    _lcd->setCursor(startX, 1);
-    _lcd->write(' ');
+    printNegativeSign(startX, startY);
     ++_currIndex;
     value = -value;
   }
@@ -162,7 +168,7 @@ void BigNumbers_I2C::printInt(int value, uint8_t startX)
   // Print
   for (uint8_t j = 0; j < length; ++j)
   {
-    printDigit(digits[j], _currIndex);
+    printDigit(digits[j], _currIndex, startY);
     _currIndex += 3;
   }
   // Clear if value is shorter than previous
@@ -170,7 +176,7 @@ void BigNumbers_I2C::printInt(int value, uint8_t startX)
   {
     while (_prevLength != length)
     {
-      clearDigit(_currIndex);
+      clearDigit(_currIndex, startY);
       _currIndex += 3;
       --_prevLength;
     }
@@ -178,15 +184,18 @@ void BigNumbers_I2C::printInt(int value, uint8_t startX)
   _prevLength = length;
 }
 
-void BigNumbers_I2C::printFloat(float value, uint8_t startX)
+void BigNumbers_I2C::printInt(int value)
+{
+  printInt(value, DEFAULT_START_X, DEFAULT_START_Y);
+}
+
+
+void BigNumbers_I2C::printFloat(float value, uint8_t startX, uint8_t startY)
 {
   _currIndex = startX;
   if (value < 0)
   {
-    _lcd->setCursor(_currIndex, 0);
-    _lcd->write(4); // Print negative sign
-    _lcd->setCursor(_currIndex, 1);
-    _lcd->write(' ');
+    printNegativeSign(startX, startY);
     ++_currIndex;
     value = -value;
   }
@@ -212,29 +221,45 @@ void BigNumbers_I2C::printFloat(float value, uint8_t startX)
   // Print integer part
   for (int8_t i = 0; i < intLength; ++i)
   {
-    printDigit(arrInt[i], _currIndex);
+    printDigit(arrInt[i], _currIndex, startY);
     _currIndex += 3;
   }
   // Print decimal point
-  _lcd->setCursor(_currIndex, 0);
+  _lcd->setCursor(_currIndex, startY);
   _lcd->write(' ');
-  _lcd->setCursor(_currIndex, 1);
+  _lcd->setCursor(_currIndex, startY + 1);
   _lcd->print('.');
   ++_currIndex;
   // Print fractional part
   for (int8_t i = 0; i < fracLength; ++i)
   {
-    printDigit(arrFrac[i], _currIndex);
+    printDigit(arrFrac[i], _currIndex, startY);
     _currIndex += 3;
   }
   if (_prevLength > intLength + fracLength)
   {
     while (_prevLength != intLength + fracLength)
     {
-      clearDigit(_currIndex);
+      clearDigit(_currIndex, startY);
       _currIndex += 3;
       --_prevLength;
     }
   }
   _prevLength = intLength + fracLength;
+}
+
+void BigNumbers_I2C::printFloat(float value)
+{
+  printFloat(value, DEFAULT_START_X, DEFAULT_START_Y);
+}
+
+
+void BigNumbers_I2C::printDouble(double value, uint8_t startX, uint8_t startY)
+{
+  printFloat(static_cast<float>(value), startX, startY);
+}
+
+void BigNumbers_I2C::printDouble(double value)
+{
+  printDouble(value, DEFAULT_START_X, DEFAULT_START_Y);
 }
