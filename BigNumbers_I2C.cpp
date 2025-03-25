@@ -293,3 +293,8 @@ void BigNumbers_I2C::printTime(uint8_t hour, uint8_t minute, uint8_t startX, uin
     
     printInt(minute, _currIndex, startY);
 }
+
+void BigNumbers_I2C::printTime(uint8_t hour, uint8_t minute)
+{
+    _printTime(hour, minute, DEFAULT_START_X, DEFAULT_START_Y);
+}
