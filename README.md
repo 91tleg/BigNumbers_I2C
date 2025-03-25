@@ -37,7 +37,7 @@ Clears the digit at the specified position.
 ```cpp
 void printInt(int value);
 ```
-Prints an integer number at default position.
+Prints an integer number starting from the default position.
 
 
 ```cpp
@@ -49,7 +49,7 @@ Prints an integer number starting from the specified position.
 ```cpp
 void printFloat(float value);
 ```
-Prints a floating-point number at default position.
+Prints a floating-point number starting from the default position.
 
 
 ```cpp
@@ -61,13 +61,19 @@ Prints a floating-point number starting from the specified position.
 ```cpp
 void printDouble(double value);
 ```
-Prints a floating-point number at default position.
+Prints a floating-point number starting from the default position.
 
 
 ```cpp
 void printDouble(double value, uint8_t startX, uint8_t startY);
 ```
 Prints a floating-point number starting from the specified position.
+
+
+```cpp
+void printTime(uint8_t hour, uint8_t minute);
+```
+Prints a time in HH:MM format starting from the default position.
 
 
 ```cpp
@@ -94,6 +100,6 @@ void loop()
 }
 ```
 
-### Troubleshooting
-This library depends on the LiquidCrystal_I2C library for communication with the LCD display. Make sure it is installed and correctly configured.\
-Make sure custom characters are initialized in setup.
+## Troubleshooting
+* This library depends on the LiquidCrystal_I2C library for communication with the LCD display. Make sure it is installed and correctly configured.
+* Make sure custom characters are initialized in setup.
