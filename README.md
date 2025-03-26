@@ -35,6 +35,12 @@ Clears the digit at the specified position.
 
 
 ```cpp
+void clearAll(uint8_t startX, uint8_t startY);
+```
+Clears all the digits starting from the specified position to the last known position.
+
+
+```cpp
 void printInt(int value);
 ```
 Prints an integer number starting from the default position.
