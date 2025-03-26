@@ -298,3 +298,14 @@ void BigNumbers_I2C::printTime(uint8_t hour, uint8_t minute)
 {
     _printTime(hour, minute, DEFAULT_START_X, DEFAULT_START_Y);
 }
+
+void BigNumbers_I2C::clearAll(uint8_t startX, uint8_t startY)
+{
+    for (int i = startX; i <= _currIndex; ++i)
+    {
+        _lcd->setCursor(startX, startY);
+        _lcd->print(" "); 
+        _lcd->setCursor(startX, startY + 1);
+        _lcd->print(" ");
+    }
+}

@@ -98,7 +98,14 @@ public:
      */
     void printTime(uint8_t hour, uint8_t minute);
 
-    
+    /**
+     * @brief Clears the value from the specified position to the last known index.
+     *
+     * @param startX The column position where the time should be cleared.
+     * @param startY The row position where the time should be cleared.
+     */
+    void clearAll(uint8_t startX, uint8_t startY);
+
 private:
     LiquidCrystal_I2C *_lcd;
     uint8_t _currIndex;
