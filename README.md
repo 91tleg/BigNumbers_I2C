@@ -9,9 +9,22 @@ An Arduino library for displaying large numbers on I2C HD44780-based LCD Display
 * Supports positive & negative numbers.
 
 ## Installation
-Download the BigNumbers_I2C library.\
-Import to Arduino IDE: In the Arduino IDE, navigate to Sketch -> Include Library -> Add .ZIP Library and select the downloaded ZIP file.\
-Include in Sketch: Include the library in your sketch by adding ```#include <BigNumbers_I2C.h>```
+
+#### Arduino IDE
+1. Download the BigNumbers_I2C library.\
+2. Import to Arduino IDE: In the Arduino IDE, navigate to Sketch -> Include Library -> Add .ZIP Library and select the downloaded ZIP file.\
+3. Include the library in your project by adding ```#include <BigNumbers_I2C.h>```
+
+#### PlatformIO
+1. Open terminal and change the directory to the lib folder of your PlatformIO project. Assuming you're in the root directory of your PlatformIO project:
+```
+cd lib
+```
+2. Clone the repository.
+```
+git clone https://github.com/91tleg/BigNumbers_I2C
+```
+3. Include the library in your project by adding ```#include <BigNumbers_I2C.h>```
 
 ## Usage
 
