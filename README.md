@@ -11,8 +11,8 @@ An Arduino library for displaying large numbers on I2C HD44780-based LCD Display
 ## Installation
 
 #### Arduino IDE
-1. Download the BigNumbers_I2C library.\
-2. Import to Arduino IDE: In the Arduino IDE, navigate to Sketch -> Include Library -> Add .ZIP Library and select the downloaded ZIP file.\
+1. Download the BigNumbers_I2C library.
+2. Import to Arduino IDE: In the Arduino IDE, navigate to Sketch -> Include Library -> Add .ZIP Library and select the downloaded ZIP file.
 3. Include the library in your project by adding ```#include <BigNumbers_I2C.h>```
 
 #### PlatformIO
